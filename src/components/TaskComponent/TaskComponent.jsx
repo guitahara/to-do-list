@@ -8,7 +8,8 @@ import {
     Form,
     InputGroupAddon,
     InputGroup,
-    Label
+    Label,
+    Tooltip
 } from 'reactstrap';
 import { projectActions } from '../../redux/actions/index';
 import './task.css';
@@ -21,6 +22,9 @@ function TaskComponent(props) {
     const [editInputs, setEditInputs] = useState({
         description: props.task.description,
     });
+    const [tooltipOpen, setTooltipOpen] = useState(false);
+
+    const toggle = () => setTooltipOpen(!tooltipOpen);
     const { done } = inputs;
     const { description } = editInputs;
     const dispatch = useDispatch();
@@ -77,7 +81,14 @@ function TaskComponent(props) {
                         <Form>
                             <FormGroup className='task-form-group'>
                                 {props.task.done ? null : <Input type='checkbox' name='done' value={done} onChange={handleDoneChange}></Input>}
-                                <Label className='task-icon'>{props.task.description}</Label>
+                                <Label className='task-icon' id={`task-id-${props.task._id}`}>{props.task.description}</Label>
+                                {
+                                    done
+                                        ? null
+                                        : (<Tooltip placement="right" isOpen={tooltipOpen} target={`task-id-${props.task._id}`} toggle={toggle}>
+                                            {new Date(props.task.finishDate).toLocaleDateString()}
+                                        </Tooltip>)
+                                }
                                 {props.task.done ? null : <BsPencil className='task-icon' onClick={toggleEdit} />}
                                 {props.task.done ? null : <BsTrash className='task-icon' onClick={handleRemove} />}
                             </FormGroup>
