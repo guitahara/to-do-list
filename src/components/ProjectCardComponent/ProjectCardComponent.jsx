@@ -40,8 +40,8 @@ function ProjectCardComponent(props) {
     }
 
     const handleSubmit = (event) => {
-        // event.preventDefault();
-        // dispatch(projectActions.create(inputs));
+        event.preventDefault();
+        dispatch(projectActions.createTask(props.project._id, taskInputs));
     }
 
     const handleProjectSubmit = (event) => {

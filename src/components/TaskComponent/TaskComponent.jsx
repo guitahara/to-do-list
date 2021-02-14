@@ -47,7 +47,7 @@ function TaskComponent(props) {
                 edit
                     ? (
                         <Form>
-                            <InputGroup>
+                            <InputGroup className='task-input-group'>
                                 <Input className='edit-input' placeholder='Task' type='text' name='description' value={description} onChange={handleDescriptionChange}></Input>
                                 <InputGroupAddon addonType="append"><Button className='edit-button' color='secondary'>Ok</Button></InputGroupAddon>
                             </InputGroup>

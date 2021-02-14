@@ -1,5 +1,5 @@
 import { projectActionTypes } from '../action-types/index';
-import { projectService } from '../../services/index'
+import { projectService, taskService } from '../../services/index'
 
 function create(project) {
     function createRequest() { return { type: projectActionTypes.PROJECT_CREATE_REQUEST } }
@@ -62,11 +62,32 @@ function remove(projectId) {
             dispatch(removeError(error));
         }
     };
-}
+};
+
+function createTask(projectId, task) {
+    function createTaskRequest() { return { type: projectActionTypes.PROJECT_TASK_CREATE_REQUEST } }
+    function createTaskSuccess() { return { type: projectActionTypes.PROJECT_TASK_CREATE_SUCCESS } }
+    function createTaskError(error) { return { type: projectActionTypes.PROJECT_TASK_CREATE_ERROR, error } }
+    function findRequest() { return { type: projectActionTypes.PROJECT_FIND_REQUEST } }
+    function findSuccess(projects) { return { type: projectActionTypes.PROJECT_FIND_SUCCESS, projects } }
+    return async dispatch => {
+        try {
+            dispatch(createTaskRequest());
+            await taskService.create(projectId, task)
+            dispatch(createTaskSuccess());
+            dispatch(findRequest());
+            const { data } = await projectService.find()
+            dispatch(findSuccess(data));
+        } catch (error) {
+            dispatch(createTaskError(error));
+        }
+    };
+};
 
 export const projectActions = {
     create,
     update,
     find,
-    remove
+    remove,
+    createTask
 }
