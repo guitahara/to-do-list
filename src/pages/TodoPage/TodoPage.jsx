@@ -4,7 +4,8 @@ import { Col, Container, Row } from 'reactstrap';
 import './todo.css';
 import {
   NavbarComponent,
-  ProjectFormComponent
+  ProjectFormComponent,
+  ProjectCardComponent
 } from '../../components/index';
 import { projectActions } from '../../redux/actions/index'
 
@@ -26,7 +27,9 @@ function TodoPage() {
       <NavbarComponent />
       <Container fluid className='to-do-container'>
         <Row>
-          <Col xs="8"></Col>
+          <Col xs="8">
+            <ProjectCardComponent />
+          </Col>
           <Col xs="4">
             <ProjectFormComponent />
           </Col>
