@@ -84,10 +84,31 @@ function createTask(projectId, task) {
     };
 };
 
+function updateTask(projectId, taskId, updateData) {
+    function updateRequest() { return { type: projectActionTypes.PROJECT_TASK_UPDATE_REQUEST } }
+    function updateSuccess() { return { type: projectActionTypes.PROJECT_TASK_UPDATE_SUCCESS } }
+    function updateError(error) { return { type: projectActionTypes.PROJECT_TASK_UPDATE_ERROR, error } }
+    function findRequest() { return { type: projectActionTypes.PROJECT_FIND_REQUEST } }
+    function findSuccess(projects) { return { type: projectActionTypes.PROJECT_FIND_SUCCESS, projects } }
+    return async dispatch => {
+        try {
+            dispatch(updateRequest());
+            await taskService.update(projectId, taskId, updateData)
+            dispatch(updateSuccess());
+            dispatch(findRequest());
+            const { data } = await projectService.find()
+            dispatch(findSuccess(data));
+        } catch (error) {
+            dispatch(updateError(error));
+        }
+    };
+}
+
 export const projectActions = {
     create,
     update,
     find,
     remove,
-    createTask
+    createTask,
+    updateTask
 }

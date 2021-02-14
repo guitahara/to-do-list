@@ -83,14 +83,14 @@ function ProjectCardComponent(props) {
             <div className='to-do'>
                 <h3>To Do</h3>
                 {
-                    props.project.tasks.filter(task => !task.done).map(task => (<TaskComponent task={task} />))
+                    props.project.tasks.filter(task => !task.done).map(task => (<TaskComponent key={`task-to-do-${task._id}`} task={task} projectId={props.project._id} />))
                 }
 
             </div>
             <div className='to-do'>
                 <h3>Done</h3>
                 {
-                    props.project.tasks.filter(task => task.done).map(task => (<TaskComponent task={task} />))
+                    props.project.tasks.filter(task => task.done).map(task => (<TaskComponent key={`task-done-${task._id}`} task={task} />))
                 }
             </div>
             <div className='project-form-div'>

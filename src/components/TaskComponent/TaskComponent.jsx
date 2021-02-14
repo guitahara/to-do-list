@@ -23,12 +23,16 @@ function TaskComponent(props) {
     });
     const { done } = inputs;
     const { description } = editInputs;
-    // const dispatch = useDispatch();
+    const dispatch = useDispatch();
 
     const handleDoneChange = (event) => {
         const { name, value } = event.target;
         setInputs(inputs => inputs.done ? { ...inputs } : ({ ...inputs, [name]: value }));
-        // dispatch(projectActions.create(inputs));
+        dispatch(projectActions.updateTask(
+            props.projectId,
+            props.task._id,
+            { done: true }
+        ));
     }
 
     const handleDescriptionChange = (event) => {
@@ -56,10 +60,10 @@ function TaskComponent(props) {
                     : (
                         <Form>
                             <FormGroup className='task-form-group'>
-                                <Input type='checkbox' name='done' value={done} onChange={handleDoneChange}></Input>
+                                {props.task.done ? null : <Input type='checkbox' name='done' value={done} onChange={handleDoneChange}></Input>}
                                 <Label className='task-icon'>{props.task.description}</Label>
-                                <BsPencil className='task-icon' onClick={toggleEdit} />
-                                <BsTrash className='task-icon' />
+                                {props.task.done ? null : <BsPencil className='task-icon' onClick={toggleEdit} />}
+                                {props.task.done ? null : <BsTrash className='task-icon' />}
                             </FormGroup>
                         </Form>
                     )
