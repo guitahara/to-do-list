@@ -35,6 +35,16 @@ function TaskComponent(props) {
         ));
     }
 
+    const handleDescriptionSubmit = (event) => {
+        event.preventDefault();
+        dispatch(projectActions.updateTask(
+            props.projectId,
+            props.task._id,
+            { ...editInputs }
+        ));
+        toggleEdit();
+    }
+
     const handleRemove = () => {
         dispatch(projectActions.removeTask(
             props.projectId,
@@ -45,7 +55,6 @@ function TaskComponent(props) {
     const handleDescriptionChange = (event) => {
         const { name, value } = event.target;
         setEditInputs(inputs => inputs.done ? { ...inputs } : ({ ...inputs, [name]: value }));
-        // dispatch(projectActions.create(inputs));
     }
 
     const toggleEdit = () => {
@@ -57,7 +66,7 @@ function TaskComponent(props) {
             {
                 edit
                     ? (
-                        <Form>
+                        <Form onSubmit={handleDescriptionSubmit}>
                             <InputGroup className='task-input-group'>
                                 <Input className='edit-input' placeholder='Task' type='text' name='description' value={description} onChange={handleDescriptionChange}></Input>
                                 <InputGroupAddon addonType="append"><Button className='edit-button' color='secondary'>Ok</Button></InputGroupAddon>
