@@ -1,0 +1,12 @@
+.project-form-card {    
+    width: 75%;
+    padding: 50px;
+    border-radius: 1.25rem !important;
+    text-align: center;
+}
+
+.title {
+    text-align: center;
+    margin: 25px !important;
+}
+
