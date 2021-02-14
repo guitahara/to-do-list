@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-// import { useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import {
-    Label,
     Input,
     FormGroup,
     Button,
@@ -9,13 +8,14 @@ import {
     Form
 } from 'reactstrap';
 import './project-form.css';
+import { projectActions } from '../../redux/actions/index';
 
 function ProjectFormComponent() {
     const [inputs, setInputs] = useState({
         name: '',
     });
     const { name } = inputs;
-    // const dispatch = useDispatch();
+    const dispatch = useDispatch();
 
     const handleChange = (event) => {
         const { name, value } = event.target;
@@ -24,8 +24,9 @@ function ProjectFormComponent() {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        // dispatch(userActions.register(inputs, from));
+        dispatch(projectActions.create(inputs));
     }
+
     return (
         <Card className='project-form-card'>
             <h2 className='title'>Create New Project</h2>
