@@ -55,7 +55,7 @@ function TaskComponent(props) {
                     )
                     : (
                         <Form>
-                            <FormGroup>
+                            <FormGroup className='task-form-group'>
                                 <Input type='checkbox' name='done' value={done} onChange={handleDoneChange}></Input>
                                 <Label className='task-icon'>{props.task.description}</Label>
                                 <BsPencil className='task-icon' onClick={toggleEdit} />

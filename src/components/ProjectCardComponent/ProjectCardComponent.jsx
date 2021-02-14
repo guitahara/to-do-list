@@ -82,10 +82,16 @@ function ProjectCardComponent(props) {
             </Navbar>
             <div className='to-do'>
                 <h3>To Do</h3>
-                <TaskComponent task={{ description: 'task description' }} />
+                {
+                    props.project.tasks.filter(task => !task.done).map(task => (<TaskComponent task={task} />))
+                }
+
             </div>
             <div className='to-do'>
                 <h3>Done</h3>
+                {
+                    props.project.tasks.filter(task => task.done).map(task => (<TaskComponent task={task} />))
+                }
             </div>
             <div className='project-form-div'>
                 <hr></hr>
