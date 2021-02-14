@@ -1,19 +1,14 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import {
     Navbar,
     NavbarBrand,
-    NavbarToggler,
     Nav,
-    NavItem,
-    NavLink,
     UncontrolledDropdown,
     DropdownToggle,
     DropdownMenu,
-    DropdownItem,
-    NavbarText,
-    Collapse
+    DropdownItem
 } from 'reactstrap';
 import { authActions } from '../../redux/actions/index'
 
@@ -21,6 +16,10 @@ function NavbarComponent() {
 
     const dispatch = useDispatch();
     const location = useLocation();
+
+    const user = useSelector(state => (
+        state.authReducer.user
+    ), shallowEqual);
 
     const handleClick = () => {
         const { from } = location.state || { from: { pathname: "/" } };
@@ -34,8 +33,8 @@ function NavbarComponent() {
             <Nav className="ml-auto" navbar>
                 <UncontrolledDropdown nav inNavbar className=''>
                     <DropdownToggle nav caret>
-                        Username
-        </DropdownToggle>
+                        {user && user.name ? user.name : 'Name'}
+                    </DropdownToggle>
                     <DropdownMenu right>
                         <DropdownItem onClick={handleClick}>
                             Logout
