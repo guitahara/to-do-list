@@ -7,9 +7,9 @@ export default function project(state = initialState, action) {
         case projectActionTypes.PROJECT_CREATE_REQUEST:
             return state
         case projectActionTypes.PROJECT_CREATE_SUCCESS:
-            const { projects } = state
-            projects.push(action.project)
-            return { projects }
+            const newProjects = [...state.projects]
+            newProjects.push(action.project)
+            return { ...state, projects: newProjects }
         case projectActionTypes.PROJECT_CREATE_ERROR:
             return state
         case projectActionTypes.PROJECT_FIND_REQUEST:
