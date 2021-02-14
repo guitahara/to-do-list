@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import {
   Container,
   Label,
@@ -12,6 +14,7 @@ import {
   Form
 } from 'reactstrap';
 import './register.css';
+import { userActions } from '../../redux/actions/index'
 
 function RegisterPage() {
   const [inputs, setInputs] = useState({
@@ -20,6 +23,8 @@ function RegisterPage() {
     name: ''
   });
   const { username, password, name } = inputs;
+  const dispatch = useDispatch();
+  const location = useLocation();
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -28,7 +33,8 @@ function RegisterPage() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log({ inputs })
+    const { from } = location.state || { from: { pathname: "/" } };
+    dispatch(userActions.register(inputs, from));
   }
   return (
     <section>

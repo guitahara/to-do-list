@@ -34,7 +34,6 @@ function LoginPage() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const { from } = location.state || { from: { pathname: "/" } };
-    console.log({ inputs, from })
     dispatch(authActions.login(username, password, from));
   }
 
