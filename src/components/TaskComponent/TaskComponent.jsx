@@ -35,6 +35,13 @@ function TaskComponent(props) {
         ));
     }
 
+    const handleRemove = () => {
+        dispatch(projectActions.removeTask(
+            props.projectId,
+            props.task._id
+        ));
+    }
+
     const handleDescriptionChange = (event) => {
         const { name, value } = event.target;
         setEditInputs(inputs => inputs.done ? { ...inputs } : ({ ...inputs, [name]: value }));
@@ -63,7 +70,7 @@ function TaskComponent(props) {
                                 {props.task.done ? null : <Input type='checkbox' name='done' value={done} onChange={handleDoneChange}></Input>}
                                 <Label className='task-icon'>{props.task.description}</Label>
                                 {props.task.done ? null : <BsPencil className='task-icon' onClick={toggleEdit} />}
-                                {props.task.done ? null : <BsTrash className='task-icon' />}
+                                {props.task.done ? null : <BsTrash className='task-icon' onClick={handleRemove} />}
                             </FormGroup>
                         </Form>
                     )

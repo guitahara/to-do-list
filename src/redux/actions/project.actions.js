@@ -104,11 +104,32 @@ function updateTask(projectId, taskId, updateData) {
     };
 }
 
+function removeTask(projectId, taskId, updateData) {
+    function removeRequest() { return { type: projectActionTypes.PROJECT_TASK_REMOVE_REQUEST } }
+    function removeSuccess() { return { type: projectActionTypes.PROJECT_TASK_REMOVE_SUCCESS } }
+    function removeError(error) { return { type: projectActionTypes.PROJECT_TASK_REMOVE_ERROR, error } }
+    function findRequest() { return { type: projectActionTypes.PROJECT_FIND_REQUEST } }
+    function findSuccess(projects) { return { type: projectActionTypes.PROJECT_FIND_SUCCESS, projects } }
+    return async dispatch => {
+        try {
+            dispatch(removeRequest());
+            await taskService.remove(projectId, taskId)
+            dispatch(removeSuccess());
+            dispatch(findRequest());
+            const { data } = await projectService.find()
+            dispatch(findSuccess(data));
+        } catch (error) {
+            dispatch(removeError(error));
+        }
+    };
+}
+
 export const projectActions = {
     create,
     update,
     find,
     remove,
     createTask,
-    updateTask
+    updateTask,
+    removeTask
 }

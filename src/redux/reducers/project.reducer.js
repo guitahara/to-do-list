@@ -49,6 +49,12 @@ export default function project(state = initialState, action) {
             return { ...state }
         case projectActionTypes.PROJECT_TASK_UPDATE_ERROR:
             return { ...state }
+        case projectActionTypes.PROJECT_TASK_REMOVE_REQUEST:
+            return { ...state }
+        case projectActionTypes.PROJECT_TASK_REMOVE_SUCCESS:
+            return { ...state }
+        case projectActionTypes.PROJECT_TASK_REMOVE_ERROR:
+            return { ...state }
 
         default:
             return state
