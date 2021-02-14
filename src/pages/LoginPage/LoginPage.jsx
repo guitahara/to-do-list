@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { Link, useLocation } from 'react-router-dom';
 import {
   Container,
   Label,
@@ -13,6 +14,7 @@ import {
   Form
 } from 'reactstrap';
 import './login.css';
+import { authActions } from '../../redux/actions/index'
 
 function LoginPage() {
 
@@ -21,6 +23,8 @@ function LoginPage() {
     password: ''
   });
   const { username, password } = inputs;
+  const dispatch = useDispatch();
+  const location = useLocation();
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -29,7 +33,9 @@ function LoginPage() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log({ inputs })
+    const { from } = location.state || { from: { pathname: "/" } };
+    console.log({ inputs, from })
+    dispatch(authActions.login(username, password, from));
   }
 
   return (

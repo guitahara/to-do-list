@@ -9,7 +9,8 @@ function login(username, password, from) {
     return async dispatch => {
         try {
             dispatch(loginRequest({ username, password }));
-            const { token, ...user } = await authService.login({ username, password })
+            const response = await authService.login(username, password)
+            const { token, ...user } = response.data
             localStorage.setItem('token', token)
             dispatch(loginSuccess(user));
             history.push(from);
