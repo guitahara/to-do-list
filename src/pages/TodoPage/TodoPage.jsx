@@ -20,15 +20,17 @@ function TodoPage() {
     state.projectReducer.projects
   ), shallowEqual);
 
-  console.log(projects)
-
   return (
     <section>
       <NavbarComponent />
       <Container fluid className='to-do-container'>
         <Row>
           <Col xs="8">
-            <ProjectCardComponent />
+            <Row>
+              {projects.map(project => (
+                <ProjectCardComponent project={project} key={`project-${project._id}`} />
+              ))}
+            </Row>
           </Col>
           <Col xs="4">
             <ProjectFormComponent />

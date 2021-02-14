@@ -33,50 +33,40 @@ function find() {
     };
 };
 
-// function update(registry, from) {
-//     function registerRequest() { return { type: userActionTypes.REGISTER_REQUEST } }
-//     function registerSuccess() { return { type: userActionTypes.REGISTER_SUCCESS } }
-//     function registerError(error) { return { type: userActionTypes.REGISTER_ERROR, error } }
-//     return async dispatch => {
-//         try {
-//             dispatch(registerRequest());
-//             await userService.register({
-//                 userName: registry.username,
-//                 name: registry.name,
-//                 password: registry.password
-//             })
-//             dispatch(registerSuccess());
-//             history.push(from);
-//         } catch (error) {
-//             dispatch(registerError(error));
-//         }
-//     };
-// }
+function update(projectId, data) {
+    function updateRequest() { return { type: projectActionTypes.PROJECT_UPDATE_REQUEST } }
+    function updateSuccess(data) { return { type: projectActionTypes.PROJECT_UPDATE_SUCCESS, data } }
+    function updateError(error) { return { type: projectActionTypes.PROJECT_UPDATE_ERROR, error } }
+    return async dispatch => {
+        try {
+            dispatch(updateRequest());
+            await projectService.update(projectId, { name: data.projectName })
+            dispatch(updateSuccess({ ...data, projectId }));
+        } catch (error) {
+            dispatch(updateError(error));
+        }
+    };
+}
 
 
-// function remove(registry, from) {
-//     function registerRequest() { return { type: userActionTypes.REGISTER_REQUEST } }
-//     function registerSuccess() { return { type: userActionTypes.REGISTER_SUCCESS } }
-//     function registerError(error) { return { type: userActionTypes.REGISTER_ERROR, error } }
-//     return async dispatch => {
-//         try {
-//             dispatch(registerRequest());
-//             await userService.register({
-//                 userName: registry.username,
-//                 name: registry.name,
-//                 password: registry.password
-//             })
-//             dispatch(registerSuccess());
-//             history.push(from);
-//         } catch (error) {
-//             dispatch(registerError(error));
-//         }
-//     };
-// }
+function remove(projectId) {
+    function removeRequest() { return { type: projectActionTypes.PROJECT_REMOVE_REQUEST } }
+    function removeSuccess(projectId) { return { type: projectActionTypes.PROJECT_REMOVE_SUCCESS, projectId } }
+    function removeError(error) { return { type: projectActionTypes.PROJECT_REMOVE_ERROR, error } }
+    return async dispatch => {
+        try {
+            dispatch(removeRequest());
+            await projectService.remove(projectId)
+            dispatch(removeSuccess(projectId));
+        } catch (error) {
+            dispatch(removeError(error));
+        }
+    };
+}
 
 export const projectActions = {
     create,
-    // update,
+    update,
     find,
-    // remove
+    remove
 }

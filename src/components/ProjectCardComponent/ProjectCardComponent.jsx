@@ -13,19 +13,31 @@ import {
     InputGroupAddon,
     InputGroup
 } from 'reactstrap';
-// import { projectActions } from '../../redux/actions/index';
+import { projectActions } from '../../redux/actions/index';
 import './project-card.css';
 
-function ProjectCardComponent() {
-    const [inputs, setInputs] = useState({
-        description: '',
+function ProjectCardComponent(props) {
+    const [taskInputs, setTaskInputs] = useState({
+        description: ''
     });
-    const { description } = inputs;
-    // const dispatch = useDispatch();
+    const [projectInputs, setProjectInputs] = useState({
+        projectName: props.project.name
+    });
+    const [edit, setEdit] = useState(false);
+    const { description } = taskInputs;
+    const { projectName } = projectInputs;
 
-    const handleChange = (event) => {
+    const dispatch = useDispatch();
+
+    const handleTaskChange = (event) => {
         const { name, value } = event.target;
-        setInputs(inputs => ({ ...inputs, [name]: value }));
+        setTaskInputs(inputs => ({ ...inputs, [name]: value }));
+    }
+
+    const handleProjectChange = (event) => {
+        console.log(event.target)
+        const { name, value } = event.target;
+        setProjectInputs(inputs => ({ ...inputs, [name]: value }));
     }
 
     const handleSubmit = (event) => {
@@ -33,13 +45,40 @@ function ProjectCardComponent() {
         // dispatch(projectActions.create(inputs));
     }
 
+    const handleProjectSubmit = (event) => {
+        event.preventDefault();
+        dispatch(projectActions.update(props.project._id, projectInputs));
+        setEdit(!edit);
+    }
+
+    const handleRemove = () => {
+        dispatch(projectActions.remove(props.project._id));
+    }
+
+    const toggleEdit = () => {
+        setEdit(!edit);
+    }
+
+
     return (
         <Container className='project-container-card'>
             <Navbar color="light" light expand="md">
-                <NavbarBrand>Project Name</NavbarBrand>
+                {
+                    edit ? (
+                        <Form onSubmit={handleProjectSubmit}>
+                            <InputGroup>
+                                <Input placeholder='Project' type='text' name='projectName' value={projectName} onChange={handleProjectChange}></Input>
+                                <InputGroupAddon addonType="append"><Button color='success'>Add</Button></InputGroupAddon>
+                            </InputGroup>
+                        </Form>
+                    ) :
+                        (
+                            <NavbarBrand>{props.project.name}</NavbarBrand>
+                        )
+                }
                 <Nav className="ml-auto" navbar>
-                    <BsPencil />
-                    <BsTrash />
+                    <BsPencil onClick={toggleEdit} />
+                    <BsTrash onClick={handleRemove} />
                 </Nav>
             </Navbar>
             <div className='to-do'>
@@ -52,7 +91,7 @@ function ProjectCardComponent() {
                 <hr></hr>
                 <Form onSubmit={handleSubmit}>
                     <InputGroup>
-                        <Input placeholder='Task' type='text' name='description' value={description} onChange={handleChange}></Input>
+                        <Input placeholder='Task' type='text' name='description' value={description} onChange={handleTaskChange}></Input>
                         <InputGroupAddon addonType="append"><Button color='success'>Add</Button></InputGroupAddon>
                     </InputGroup>
                 </Form>
