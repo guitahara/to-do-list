@@ -6,7 +6,6 @@ import {
     NavbarBrand,
     Nav,
     Form,
-    FormGroup,
     Button,
     Input,
     Container,
@@ -14,6 +13,7 @@ import {
     InputGroup
 } from 'reactstrap';
 import { projectActions } from '../../redux/actions/index';
+import { TaskComponent } from '../index';
 import './project-card.css';
 
 function ProjectCardComponent(props) {
@@ -35,7 +35,6 @@ function ProjectCardComponent(props) {
     }
 
     const handleProjectChange = (event) => {
-        console.log(event.target)
         const { name, value } = event.target;
         setProjectInputs(inputs => ({ ...inputs, [name]: value }));
     }
@@ -82,10 +81,11 @@ function ProjectCardComponent(props) {
                 </Nav>
             </Navbar>
             <div className='to-do'>
-                <h3>To Do:</h3>
+                <h3>To Do</h3>
+                <TaskComponent task={{ description: 'task description' }} />
             </div>
             <div className='to-do'>
-                <h3>Done:</h3>
+                <h3>Done</h3>
             </div>
             <div className='project-form-div'>
                 <hr></hr>

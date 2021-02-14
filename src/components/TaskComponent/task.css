@@ -1,0 +1,21 @@
+.task-div {
+    padding: 22px;
+}
+
+.edit-input {
+    height: 30px !important;
+}
+
+.edit-button {
+    height: 30px !important;
+}
+
+.task-icon {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.input-group {
+    width: 75% !important;
+    left: 0% !important;
+}
