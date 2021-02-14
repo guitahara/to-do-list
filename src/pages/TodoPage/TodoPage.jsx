@@ -1,12 +1,26 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { shallowEqual, useSelector, useDispatch } from 'react-redux';
 import { Col, Container, Row } from 'reactstrap';
 import './todo.css';
 import {
   NavbarComponent,
   ProjectFormComponent
 } from '../../components/index';
+import { projectActions } from '../../redux/actions/index'
 
 function TodoPage() {
+  const dispatch = useDispatch();
+
+  useEffect(async () => {
+    dispatch(projectActions.find());
+  }, []);
+
+  const projects = useSelector(state => (
+    state.projectReducer.projects
+  ), shallowEqual);
+
+  console.log(projects)
+
   return (
     <section>
       <NavbarComponent />
