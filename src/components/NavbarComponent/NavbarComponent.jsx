@@ -17,9 +17,7 @@ function NavbarComponent() {
     const dispatch = useDispatch();
     const location = useLocation();
 
-    const user = useSelector(state => (
-        state.authReducer.user
-    ), shallowEqual);
+    const name = localStorage.getItem('name')
 
     const handleClick = () => {
         const { from } = location.state || { from: { pathname: "/" } };
@@ -33,7 +31,7 @@ function NavbarComponent() {
             <Nav className="ml-auto" navbar>
                 <UncontrolledDropdown nav inNavbar className=''>
                     <DropdownToggle nav caret>
-                        {user && user.name ? user.name : 'Name'}
+                        {name ? name : 'Name'}
                     </DropdownToggle>
                     <DropdownMenu right>
                         <DropdownItem onClick={handleClick}>

@@ -12,7 +12,9 @@ function login(username, password, from) {
             const response = await authService.login(username, password);
             const { token, ...user } = response.data;
             localStorage.setItem('token', token);
-            dispatch(loginSuccess(user));
+            localStorage.setItem('name', user.name)
+            localStorage.setItem('username', user.userName)
+            dispatch(loginSuccess(response.data));
             history.push(from);
         } catch (error) {
             dispatch(loginError(error));
